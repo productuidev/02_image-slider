@@ -8,29 +8,31 @@
     <div class="slider-wrap" id="slider-wrap">
       <ul class="list slider" id="slider">
         <li>
-          <img src="./src/image/red.jpeg" />
+          <img src="<%= require('./src/image/red.jpeg') %>" />
         </li>
         <li>
-          <img src="./src/image/orange.jpeg" />
+          <img src="<%= require('./src/image/orange.jpeg') %>" />
         </li>
         <li>
-          <img src="./src/image/yellow.jpeg" />
+          <img src="<%= require('./src/image/yellow.jpeg') %>" />
         </li>
         <li>
-          <img src="./src/image/green.jpeg" />
+          <img src="<%= require('./src/image/green.jpeg') %>" />
         </li>
         <li>
-          <img src="./src/image/blue.jpeg" />
+          <img src="<%= require('./src/image/blue.jpeg') %>" />
         </li>
         <li>
-          <img src="./src/image/indigo.jpeg" />
+          <img src="<%= require('./src/image/indigo.jpeg') %>" />
         </li>
         <li>
-          <img src="./src/image/violet.jpeg" />
+          <img src="<%= require('./src/image/violet.jpeg') %>" />
         </li>
       </ul>
 
-      <div class="btn next" id="next"><i class="fa fa-arrow-right"></i></div>
+      <div class="btn next" id="next">
+        <i class="fa fa-arrow-right"></i>
+      </div>
       <div class="btn previous" id="previous">
         <i class="fa fa-arrow-left"></i>
       </div>
