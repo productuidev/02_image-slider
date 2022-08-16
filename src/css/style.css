@@ -15,10 +15,10 @@
 }
 /* ! */
 .slider-wrap ul.slider {
-  width: 100%;
+  width: 100%; /* 8000px */
   height: 100%;
   position: absolute;
-  left: 0px;
+  left: 0px; /* 초기값 0 지정 */
 }
 /* ! */
 .slider-wrap ul.slider li {
