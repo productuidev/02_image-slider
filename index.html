@@ -1,14 +1,56 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title><%= htmlWebpackPlugin.options.title %></title>
+  </head>
 
-<head>
-    <title>
-        <%= htmlWebpackPlugin.options.title %>
-    </title>
-</head>
+  <body>
+    <div class="slider-wrap" id="slider-wrap">
+      <ul class="list slider" id="slider">
+        <li>
+          <img src="./src/image/red.jpeg" />
+        </li>
+        <li>
+          <img src="./src/image/orange.jpeg" />
+        </li>
+        <li>
+          <img src="./src/image/yellow.jpeg" />
+        </li>
+        <li>
+          <img src="./src/image/green.jpeg" />
+        </li>
+        <li>
+          <img src="./src/image/blue.jpeg" />
+        </li>
+        <li>
+          <img src="./src/image/indigo.jpeg" />
+        </li>
+        <li>
+          <img src="./src/image/violet.jpeg" />
+        </li>
+      </ul>
 
-<body>
+      <div class="btn next" id="next"><i class="fa fa-arrow-right"></i></div>
+      <div class="btn previous" id="previous">
+        <i class="fa fa-arrow-left"></i>
+      </div>
 
-</body>
+      <div class="indicator-wrap" id="indicator-wrap">
+        <ul>
+          <li class="active"></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </div>
 
+      <div class="control-wrap play" id="control-wrap">
+        <i class="fa fa-pause" id="pause" data-status="pause"></i>
+        <i class="fa fa-play" id="play" data-status="play"></i>
+      </div>
+    </div>
+  </body>
 </html>
