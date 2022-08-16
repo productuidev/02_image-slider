@@ -1,20 +1,45 @@
 {
+  "root": true,
   "env": {
     "browser": true,
-    "es2021": true
+    "es2021": true,
+    "mocha": true
   },
-  "extends": ["plugin:prettier/recommended"],
+  "extends": ["@1stg", "plugin:eslint-plugin/recommended"],
+  "plugins": ["prettier"],
   "parserOptions": {
     "ecmaVersion": 13,
     "sourceType": "module"
   },
   "rules": {
+    "eslint-plugin/report-message-format": ["error", "^[^a-z].*\\.$"],
+    "arrow-body-style": "off",
+    "prefer-arrow-callback": "off",
     "prettier/prettier": [
       "error",
       {
         "singleQuote": true,
-        "parser": "flow"
+        "parser": "flow",
+        "usePrettierrc": false,
+        "fileInfoOptions": {
+          "withNodeModules": true
+        }
       }
     ]
-  }
+  },
+  "overrides": [
+    {
+      "files": "*.js",
+      "plugins": ["self"],
+      "rules": {
+        "self/prettier": ["error"]
+      }
+    },
+    {
+      "files": "test/*.js",
+      "rules": {
+        "no-magic-numbers": "off"
+      }
+    }
+  ]
 }
