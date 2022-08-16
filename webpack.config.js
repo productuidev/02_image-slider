@@ -9,19 +9,20 @@ module.exports = {
     filename: "bundle.js",
     path: path.resolve(__dirname, "./dist"),
     clean: true,
+    assetModuleFilename: 'images/[hash][ext][query]'
   },
   devtool: 'source-map',
   mode: "development",
   devServer: {
     host: "localhost",
-    port: 4200,
+    port: 8080,
     open: true,
-    watchFiles: 'index.html',
+    watchFiles: 'index.html'
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: "project",
-      template: "./index.html",
+      title: "Image Slider",
+      template: "index.html",
       inject: "body",
       favicon: "./favicon.ico"
     }),
@@ -34,15 +35,15 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
       {
-        test: /\,jpeg$/,
-        type: 'asset/inline', //image는 webpack에 있는 내장 loader로 읽어들이겠다
+        test: /\.jpeg$/,
+        type:'asset/inline'
       }
-    ],
+  ],
   },
   optimization: {
     minimizer: [
       new TerserPlugin(),
       new CssMinimizerPlugin()
     ]
-  },
+  }
 };
