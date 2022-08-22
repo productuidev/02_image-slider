@@ -55,6 +55,28 @@ export default class ImageSlider {
   addEvent() {
     this.nextBtnEl.addEventListener('click', this.moveToRight.bind(this));
     this.previousBtnEl.addEventListener('click', this.moveToLeft.bind(this));
+    this.indicatorWrapEl.addEventListener(
+      'click',
+      this.onClickIndicator.bind(this),
+    );
+  }
+
+  // indicator 클릭 이벤트
+  // console.log(indexPosition) // data-index말고도 다른 영역(div,ul)이 같이 잡힘 (undefinded)
+  // indexPosition은 String으로 잡혀 있으므로 parseInt를 통해 Number, 10진법으로 변경 (eslint rules)
+  // 다른 영역에 대해 parseInt(undefined)를 넣으면 NaN (Not-a-Number)가 됨
+  // NaN을 가려내서 li data-index만 탐색하게 하자 (조건문)
+  // Number의 static 메서드인 isInterger이 정수라면
+  // 슬라이드 위치(left) 이동 => -(slideWidth * currentPosition)
+  onClickIndicator(event) {
+    const indexPosition = parseInt(event.target.dataset.index, 10);
+    if (Number.isInteger(indexPosition)) {
+      this.#currentPostion = indexPosition;
+      this.sliderListEl.style.left = `-${
+        this.#slideWidth * this.#currentPostion
+      }px`;
+      this.setIndicator();
+    }
   }
 
   // 좌우 이동 : 너비값에 따른 이동 생각하기
