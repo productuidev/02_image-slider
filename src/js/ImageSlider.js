@@ -10,6 +10,7 @@ export default class ImageSlider {
   sliderListEl;
   nextBtnEl;
   previousBtnEl;
+  indicatorWrapEl;
 
   // 초기화해줄 element들을 constructor에 넣어서
   // class에서 instance를 생성할 때 실행시키도록 함
@@ -18,8 +19,8 @@ export default class ImageSlider {
     this.initSliderNumber();
     this.initSlideWidth();
     this.initSliderListWidth();
-    // 이벤트 발생 시키기
-    this.addEvent();
+    this.addEvent(); // 이벤트 발생 시키기
+    this.createIndicator(); // 탐색 순서 유의
   }
 
   assignElement() {
@@ -28,6 +29,7 @@ export default class ImageSlider {
     this.sliderListEl = this.sliderWrapEl.querySelector('#slider');
     this.nextBtnEl = this.sliderWrapEl.querySelector('#next');
     this.previousBtnEl = this.sliderWrapEl.querySelector('#previous');
+    this.indicatorWrapEl = this.sliderWrapEl.querySelector('#indicator-wrap');
   }
 
   // 초기화 : 슬라이드 개수
@@ -82,5 +84,16 @@ export default class ImageSlider {
     this.sliderListEl.style.left = `-${
       this.#slideWidth * this.#currentPostion
     }px`;
+  }
+
+  // indicator 슬라이드 개수만큼 생성하기
+  createIndicator() {
+    const docFragment = document.createDocumentFragment();
+    for (let i = 0; i < this.#slideNumber; i += 1) {
+      const li = document.createElement('li');
+      li.dataset.index = i;
+      docFragment.appendChild(li);
+    }
+    this.indicatorWrapEl.querySelector('ul').appendChild(docFragment); // ul > li li li
   }
 }
