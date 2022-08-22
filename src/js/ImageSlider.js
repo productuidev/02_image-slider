@@ -21,6 +21,7 @@ export default class ImageSlider {
     this.initSliderListWidth();
     this.addEvent(); // 이벤트 발생 시키기
     this.createIndicator(); // 탐색 순서 유의
+    this.setIndicator();
   }
 
   assignElement() {
@@ -72,6 +73,7 @@ export default class ImageSlider {
     this.sliderListEl.style.left = `-${
       this.#slideWidth * this.#currentPostion
     }px`;
+    this.setIndicator(); // 다음버튼 눌렀을 때 indicator 활성화
   }
 
   // 왼쪽 : 현재 위치값에서 -1
@@ -84,6 +86,7 @@ export default class ImageSlider {
     this.sliderListEl.style.left = `-${
       this.#slideWidth * this.#currentPostion
     }px`;
+    this.setIndicator(); // 이전버튼 눌렀을 때 indicator 활성화
   }
 
   // indicator 슬라이드 개수만큼 생성하기
@@ -91,9 +94,23 @@ export default class ImageSlider {
     const docFragment = document.createDocumentFragment();
     for (let i = 0; i < this.#slideNumber; i += 1) {
       const li = document.createElement('li');
-      li.dataset.index = i;
+      li.dataset.index = i; // data-index 순서값
       docFragment.appendChild(li);
     }
     this.indicatorWrapEl.querySelector('ul').appendChild(docFragment); // ul > li li li
+  }
+
+  setIndicator() {
+    // data-index는 초기에 비활성화상태
+    // data-index에 따라서 현재 위치에서 활성화
+
+    // ?는 넣는 이유는 처음에 초기화상태에서는 active가 없을 수도 있으므로
+    this.indicatorWrapEl.querySelector('li.active')?.classList.remove('active');
+    // 몇 번째를 활성화해줄 것인지
+    // data-index는 0부터 시작하지만 li:nth-child는 1부터 시작하므로
+    // currentPosition에 +1을 더해준다.
+    this.indicatorWrapEl
+      .querySelector(`ul li:nth-child(${this.#currentPostion + 1})`)
+      .classList.add('active');
   }
 }
