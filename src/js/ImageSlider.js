@@ -5,12 +5,18 @@ export default class ImageSlider {
   #slideNumber = 0; // 슬라이드 개수
   #slideWidth = 0; // 슬라이드 너비
 
+  #intervalId;
+  #autoPlay = true; // 초기 자동재생이 기본값이므로 true
+
   // Public Field
+  // 클래스에서 어떤 변수가 쓰이는지 상단에 미리 써놓으면 코드 리팩토링할 때나 협업할 때 클래스 내에서는 이런 변수들이 있구나 하고 알아보기 쉬워서 작성함
+  // 본인이 짠 코드여도 시간이 지나면 기억하지 못할 수 있다 (코드를 잘 짜는 것만큼 정리를 잘하는 것도 좋은 프로그래머의 기본 중 하나)
   sliderWrapEl;
   sliderListEl;
   nextBtnEl;
   previousBtnEl;
   indicatorWrapEl;
+  controlWrapEl;
 
   // 초기화해줄 element들을 constructor에 넣어서
   // class에서 instance를 생성할 때 실행시키도록 함
@@ -21,7 +27,8 @@ export default class ImageSlider {
     this.initSliderListWidth();
     this.addEvent(); // 이벤트 발생 시키기
     this.createIndicator(); // 탐색 순서 유의
-    this.setIndicator(); 
+    this.setIndicator();
+    this.initAutoplay();
   }
 
   assignElement() {
@@ -31,6 +38,16 @@ export default class ImageSlider {
     this.nextBtnEl = this.sliderWrapEl.querySelector('#next');
     this.previousBtnEl = this.sliderWrapEl.querySelector('#previous');
     this.indicatorWrapEl = this.sliderWrapEl.querySelector('#indicator-wrap');
+    this.controlWrapEl = this.sliderWrapEl.querySelector('#control-wrap');
+  }
+
+  // 초기화 : 3초 간격 자동재생
+  initAutoplay() {
+    // setInterval(this.moveToRight.bind(this), 3000);
+    // setInterval 함수는 interval id를 리턴한다.
+    // 자동재생을 멈추기 위해 interval id를 클래스의 private field에 저장해둔다.
+
+    this.#intervalId = setInterval(this.moveToRight.bind(this), 3000);
   }
 
   // 초기화 : 슬라이드 개수
@@ -59,6 +76,22 @@ export default class ImageSlider {
       'click',
       this.onClickIndicator.bind(this),
     );
+    this.controlWrapEl.addEventListener('click', this.togglePlay.bind(this));
+  }
+
+  // control-wrap i에 data-status (pause/play)를 가지고 멈춤/재생되도록 조건 걸기
+  togglePlay(event) {
+    if (event.target.dataset.status === 'play') {
+      this.#autoPlay = true;
+      this.controlWrapEl.classList.add('play');
+      this.controlWrapEl.classList.remove('pause');
+      this.initAutoplay();
+    } else if (event.target.dataset.status === 'pause') {
+      this.#autoPlay = false;
+      this.controlWrapEl.classList.add('pause');
+      this.controlWrapEl.classList.remove('play');
+      clearInterval(this.#intervalId);
+    }
   }
 
   // indicator 클릭 이벤트
@@ -95,6 +128,15 @@ export default class ImageSlider {
     this.sliderListEl.style.left = `-${
       this.#slideWidth * this.#currentPostion
     }px`;
+
+    // 재생/멈춤 중 이전/다음버튼을 누르면 슬라이드 간에 변경되는 간격이 3초가 아닐 수 있어 해당 부분에 대해
+    // moveToRight와 moveToLeft에 추가
+    // autoplay 상태인지 아닌지도 조건에 추가
+    if (this.#autoPlay) {
+      clearInterval(this.#intervalId);
+      this.#intervalId = setInterval(this.moveToRight.bind(this), 3000);
+    }
+
     this.setIndicator(); // 다음버튼 눌렀을 때 indicator 활성화
   }
 
@@ -108,6 +150,15 @@ export default class ImageSlider {
     this.sliderListEl.style.left = `-${
       this.#slideWidth * this.#currentPostion
     }px`;
+
+    // 재생/멈춤 중 이전/다음버튼을 누르면 슬라이드 간에 변경되는 간격이 3초가 아닐 수 있어 해당 부분에 대해
+    // moveToRight와 moveToLeft에 추가
+    // autoplay 상태인지 아닌지도 조건에 추가
+    if (this.#autoPlay) {
+      clearInterval(this.#intervalId);
+      this.#intervalId = setInterval(this.moveToLeft.bind(this), 3000);
+    }
+
     this.setIndicator(); // 이전버튼 눌렀을 때 indicator 활성화
   }
 
