@@ -21,7 +21,7 @@ export default class ImageSlider {
     this.initSliderListWidth();
     this.addEvent(); // 이벤트 발생 시키기
     this.createIndicator(); // 탐색 순서 유의
-    this.setIndicator();
+    this.setIndicator(); 
   }
 
   assignElement() {
